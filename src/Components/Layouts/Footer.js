@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import _ from "lodash";
 import { Paper, Tabs, Tab } from "@material-ui/core";
 
 export default class extends Component {
     state = {
-        value: 0
+        value: 0,
+        isMobile: false
     };
 
     static propTypes = {
@@ -17,7 +19,30 @@ export default class extends Component {
     };
 
     componentDidMount = () => {
-        this.setState({ value: this.props.selectedCategory || 0 });
+        window.addEventListener("resize", _.throttle(this.checkIsMobile, 300));
+        this.setState({
+            value: this.props.selectedCategory || 0,
+            isMobile: this.isMobile()
+        });
+    };
+
+    /*
+        @return {void}
+    */
+    checkIsMobile = () => {
+        if (this.isMobile()) {
+            console.log("mobile");
+            this.setState({ isMobile: true });
+        } else {
+            this.setState({ isMobile: false });
+        }
+    };
+
+    /*
+        @return {Boolean}
+    */
+    isMobile = () => {
+        return window.innerWidth < 700;
     };
 
     handleChange = (e, value) => {
@@ -35,8 +60,8 @@ export default class extends Component {
                     onChange={this.handleChange}
                     indicatorColor="primary"
                     textColor="primary"
-                    centered
-                    scrollable
+                    centered={!this.state.isMobile}
+                    scrollable={this.state.isMobile}
                     scrollButtons="on"
                 >
                     <Tab label="all" />
