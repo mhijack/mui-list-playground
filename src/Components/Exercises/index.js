@@ -1,4 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Component } from "react";
+import PropTypes from "prop-types";
+import Detail from "./Detail";
 import {
     withStyles,
     Grid,
@@ -23,11 +25,10 @@ const styles = {
 const wStyles = theme => ({
     root: {
         width: "100%",
-        maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
         position: "relative",
-        overflow: "hidden",
-        maxHeight: "auto"
+        overflow: "auto",
+        maxHeight: "100%"
     },
     listSection: {
         backgroundColor: "inherit"
@@ -38,24 +39,40 @@ const wStyles = theme => ({
     }
 });
 
-export default withStyles(wStyles)(
-    ({ exercises, classes, selectedCategory }) => {
+class I extends Component {
+    state = {
+        selectedExercise: null
+    };
+
+    static propTypes = {
+        exercises: PropTypes.array.isRequired
+    };
+
+    handleItemClick = ex => {
+        this.setState({ selectedExercise: ex });
+    };
+
+    render() {
+        const { exercises, classes, selectedCategory } = this.props;
+        const { selectedExercise } = this.state;
+
+        let exs = exercises;
         // Only display list of exercises of the selected category
         if (selectedCategory !== 0) {
-            exercises = exercises.filter(
+            exs = this.props.exercises.filter(
                 exercise => exercise[0] === selectedCategory
             );
         }
 
         return (
-            <Grid container spacing={16}>
+            <Grid container spacing={16} wrap="wrap">
                 <Grid item {...styles.GridLayout}>
                     <Paper style={styles.Paper}>
                         <List
                             className={classes.root}
                             subheader={<ListSubheader />}
                         >
-                            {exercises.map(([group, exercise]) => {
+                            {exs.map(([group, exercise]) => {
                                 return (
                                     <li
                                         key={group}
@@ -79,6 +96,11 @@ export default withStyles(wStyles)(
                                                     <ListItem
                                                         key={ex.title}
                                                         button
+                                                        onClick={() =>
+                                                            this.handleItemClick(
+                                                                ex
+                                                            )
+                                                        }
                                                     >
                                                         <ListItemText>
                                                             {ex.title}
@@ -96,11 +118,23 @@ export default withStyles(wStyles)(
 
                 <Grid item {...styles.GridLayout}>
                     <Paper style={styles.Paper}>
-                        <Typography variant="h4">Welcome!</Typography>
-                        Please select an exercise from the left to view details.
+                        {selectedExercise ? (
+                            <Detail exercise={selectedExercise} />
+                        ) : (
+                            <Fragment>
+                                <Typography variant="h4">
+                                    {"Welcome!"}
+                                </Typography>
+                                {
+                                    "Please select an exercise from the left to view details."
+                                }
+                            </Fragment>
+                        )}
                     </Paper>
                 </Grid>
             </Grid>
         );
     }
-);
+}
+
+export default withStyles(wStyles)(I);

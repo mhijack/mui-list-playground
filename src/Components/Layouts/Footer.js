@@ -1,9 +1,19 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Paper, Tabs, Tab } from "@material-ui/core";
 
 export default class extends Component {
     state = {
         value: 0
+    };
+
+    static propTypes = {
+        muscles: PropTypes.array.isRequired,
+        onSelect: PropTypes.func.isRequired,
+        selectedCategory: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ])
     };
 
     componentDidMount = () => {
@@ -26,6 +36,8 @@ export default class extends Component {
                     indicatorColor="primary"
                     textColor="primary"
                     centered
+                    scrollable
+                    scrollButtons="on"
                 >
                     <Tab label="all" />
                     {muscles.map(muscle => (
