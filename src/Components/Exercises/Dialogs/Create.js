@@ -1,18 +1,26 @@
 import React, { Fragment, Component } from "react";
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    DialogContentText,
-    Button,
-    TextField
-} from "@material-ui/core";
-import { Add as AddIcon } from "@material-ui/icons";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import AddIcon from "@material-ui/icons/Add";
 
 class Create extends Component {
     state = {
-        open: false
+        open: true,
+        // TextField Input value as a unified form object
+        form: {
+            title: "",
+            description: "",
+            muscles: ""
+        }
     };
 
     handleClickOpen = () => {
@@ -27,8 +35,20 @@ class Create extends Component {
         });
     };
 
+    handleInputChange = name => event => {
+        this.setState({
+            form: {
+                ...this.state.form,
+                [name]: event.target.value
+            }
+        });
+    };
+
     render() {
-        const { open } = this.state;
+        const {
+            open,
+            form: { title, description, muscles }
+        } = this.state;
 
         return (
             <Fragment>
@@ -39,6 +59,7 @@ class Create extends Component {
                     open={open}
                     onClose={this.handleClickClose}
                     aria-labelledby="form-dialog-title"
+                    fullWidth
                 >
                     <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                     <DialogContent>
@@ -48,10 +69,44 @@ class Create extends Component {
                         <TextField
                             autoFocus
                             margin="dense"
-                            id="name"
-                            label="Email Address"
-                            type="email"
+                            id="title"
+                            type="text"
                             fullWidth
+                            value={title}
+                            label="Title"
+                            onChange={this.handleInputChange("title")}
+                        />
+
+                        <br />
+
+                        <FormControl fullWidth>
+                            <InputLabel htmlFor="muscles">Muscles</InputLabel>
+                            <Select
+                                value={muscles}
+                                onChange={this.handleInputChange("muscles")}
+                                autoWidth
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        <br />
+
+                        <TextField
+                            margin="dense"
+                            id="description"
+                            type="tet"
+                            fullWidth
+                            multiline
+                            rowsMax={4}
+                            value={description}
+                            label="Description"
+                            onChange={this.handleInputChange("description")}
                         />
                     </DialogContent>
                     <DialogActions>
