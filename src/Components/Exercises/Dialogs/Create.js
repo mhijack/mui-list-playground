@@ -14,7 +14,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 class Create extends Component {
     state = {
-        open: true,
+        open: false,
         // TextField Input value as a unified form object
         form: {
             title: "",

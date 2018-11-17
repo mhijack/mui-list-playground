@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { Header, Footer } from "./Layouts";
 import Exercises from "./Exercises";
+// TEST
+import Reveal from "./Reveal";
 
 import { muscles, exercises } from "../store";
 
@@ -44,6 +46,10 @@ export default class extends Component {
                     exercises={exercises}
                     selectedCategory={selectedCategory}
                 />
+
+                <div style={{ height: "2000px" }} />
+
+                <Reveal render={reveal => <div>Reveal</div>} />
             </Fragment>
         );
     }
