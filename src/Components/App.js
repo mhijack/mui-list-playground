@@ -1,11 +1,13 @@
-import React, { Component, Fragment } from 'react';
-import { Header, Footer, CustomDrawer } from './Layouts';
-import Exercises from './Exercises';
-// TODO: publish Reveal as npm package
+import React, { Component, Fragment, lazy, Suspense } from 'react';
+import { Header, Footer } from './Layouts';
+// TODO: publish Reveal on npm
 import Reveal from './Reveal';
 
 import { muscles, exercises } from '../store';
 // import { ClickAwayListener } from '@material-ui/core';
+
+const LazyCustomDrawer = lazy(() => import('./Layouts/CustomDrawer'));
+const LazyExercises = lazy(() => import('./Exercises'));
 
 export default class extends Component {
   state = {
@@ -49,10 +51,12 @@ export default class extends Component {
           // TODO: try ClickAwayListener elsewhere
         }
         {/* <ClickAwayListener onClickAway={this.handleClickDrawerClose}> */}
-        <CustomDrawer
-          drawerOpen={drawerOpen}
-          handleClickDrawerClose={this.handleClickDrawerClose}
-        />
+        <Suspense fallback={<div>loading...</div>}>
+          <LazyCustomDrawer
+            drawerOpen={drawerOpen}
+            handleClickDrawerClose={this.handleClickDrawerClose}
+          />
+        </Suspense>
         {/* </ClickAwayListener> */}
 
         <Header
@@ -66,7 +70,12 @@ export default class extends Component {
           selectedCategory={selectedCategory}
         />
 
-        <Exercises exercises={exercises} selectedCategory={selectedCategory} />
+        <Suspense fallback={<div>loading...</div>}>
+          <LazyExercises
+            exercises={exercises}
+            selectedCategory={selectedCategory}
+          />
+        </Suspense>
 
         <div style={{ height: '2000px' }} />
 

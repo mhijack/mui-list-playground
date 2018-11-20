@@ -13,7 +13,7 @@ const CustomDrawer = ({ drawerOpen, handleClickDrawerClose }) => {
     <div>
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button key={text} onClick={handleClickDrawerClose}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
             </ListItemIcon>
@@ -24,7 +24,7 @@ const CustomDrawer = ({ drawerOpen, handleClickDrawerClose }) => {
       <Divider />
       <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button key={text} onClick={handleClickDrawerClose}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
             </ListItemIcon>
@@ -39,8 +39,9 @@ const CustomDrawer = ({ drawerOpen, handleClickDrawerClose }) => {
     <Drawer
       open={drawerOpen}
       onClose={handleClickDrawerClose}
-      anchor={'bottom'}
+      anchor={'left'}
       ModalProps={{ style: { backgroundColor: 'rgba(0, 0, 0, .5' } }}
+      transitionDuration={400}
     >
       {sideList}
     </Drawer>
