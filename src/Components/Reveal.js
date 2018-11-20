@@ -10,7 +10,8 @@ class Reveal extends Component {
 
     handleScroll = () => {
         console.log(this.isScrolledIntoView(this.element));
-        if (this.isScrolledIntoView(this.element)) {
+        if (!this.state.reveal && this.isScrolledIntoView(this.element)) {
+            console.log("ignored");
             this.setState({ reveal: true });
         }
     };
