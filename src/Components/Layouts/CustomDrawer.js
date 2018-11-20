@@ -36,7 +36,12 @@ const CustomDrawer = ({ drawerOpen, handleClickDrawerClose }) => {
   );
 
   return (
-    <Drawer open={drawerOpen} onClose={handleClickDrawerClose}>
+    <Drawer
+      open={drawerOpen}
+      onClose={handleClickDrawerClose}
+      anchor={'bottom'}
+      ModalProps={{ style: { backgroundColor: 'rgba(0, 0, 0, .5' } }}
+    >
       {sideList}
     </Drawer>
   );

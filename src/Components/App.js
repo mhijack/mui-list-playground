@@ -5,7 +5,7 @@ import Exercises from './Exercises';
 import Reveal from './Reveal';
 
 import { muscles, exercises } from '../store';
-import { ClickAwayListener } from '@material-ui/core';
+// import { ClickAwayListener } from '@material-ui/core';
 
 export default class extends Component {
   state = {
@@ -45,6 +45,9 @@ export default class extends Component {
 
     return (
       <Fragment>
+        {
+          // TODO: try ClickAwayListener elsewhere
+        }
         {/* <ClickAwayListener onClickAway={this.handleClickDrawerClose}> */}
         <CustomDrawer
           drawerOpen={drawerOpen}
